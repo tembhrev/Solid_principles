@@ -88,6 +88,50 @@ animals = [
         
 animal_sound(animals)
 
+"""
+Another example:
+Let’s imagine you have a store, and you give a discount of 20% to your favorite customers using this class:
+When you decide to offer double the 20% discount to VIP customers. You may modify the class like this:
+"""
+
+class Discount:
+    def __init__(self, customer, price):
+        self.customer = customer
+        self.price = price
+        
+    def give_discount(self):
+        if self.customer == 'fav':
+            return self.price * 0.2
+        if self.customer == 'vip':
+            return self.price * 0.4
+        
+
+"""
+No, this fails the OCP principle. OCP forbids it. If we want to give a new percent discount maybe, to a diff. 
+type of customers, you will see that a new logic will be added.
+To make it follow the OCP principle, we will add a new class that will extend the Discount. 
+In this new class, we would implement its new behavior:
+"""
+
+class Discount:
+    def __init__(self, customer, price):
+        self.customer = customer
+        self.price = price
+        
+    def get_discount(self):
+
+        return self.price * 2
+    
+class VIPDiscount(Discount):
+    def get_discount(self):
+        return super().get_discount() * 2
+    
+class SuperVIPDiscount(VIPDiscount):
+    def get_discount(self):      
+        return super().get_discount() * 2
+    
+superVIP = SuperVIPDiscount("fav", 400)
+print(superVIP.get_discount())
 
 
 
